@@ -1,0 +1,194 @@
+# Default modifier key: <Win> or <Super>.
+set $WIN Mod4
+
+# Some global variables for the config. The
+# $APPS variable stores the absolute path to
+# the directory where I keep my custom-built
+# Rofi applications.
+set $APP $HOME/.config/rofi/apps
+
+# Hide the titlebar.
+new_window pixel
+
+# Define names for default workspaces for which we configure key bindings
+# later on. We use variables to avoid repeating these names in multiple
+# places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Switch to workspace.
+bindsym $WIN+1 workspace number $ws1
+bindsym $WIN+2 workspace number $ws2
+bindsym $WIN+3 workspace number $ws3
+bindsym $WIN+4 workspace number $ws4
+bindsym $WIN+5 workspace number $ws5
+bindsym $WIN+6 workspace number $ws6
+bindsym $WIN+7 workspace number $ws7
+bindsym $WIN+8 workspace number $ws8
+bindsym $WIN+9 workspace number $ws9
+bindsym $WIN+0 workspace number $ws10
+
+# Attach workspaces to specific monitors.
+workspace $ws1  output eDP-1
+workspace $ws2  output  DP-1
+workspace $ws3  output eDP-1
+workspace $ws4  output  DP-1
+workspace $ws5  output eDP-1
+workspace $ws6  output  DP-1
+workspace $ws7  output eDP-1
+workspace $ws8  output  DP-1
+workspace $ws9  output eDP-1
+workspace $ws10 output  DP-1
+
+# Move focused container to workspace.
+bindsym $WIN+Shift+1 move container to workspace number $ws1
+bindsym $WIN+Shift+2 move container to workspace number $ws2
+bindsym $WIN+Shift+3 move container to workspace number $ws3
+bindsym $WIN+Shift+4 move container to workspace number $ws4
+bindsym $WIN+Shift+5 move container to workspace number $ws5
+bindsym $WIN+Shift+6 move container to workspace number $ws6
+bindsym $WIN+Shift+7 move container to workspace number $ws7
+bindsym $WIN+Shift+8 move container to workspace number $ws8
+bindsym $WIN+Shift+9 move container to workspace number $ws9
+bindsym $WIN+Shift+0 move container to workspace number $ws10
+
+# Font for window titles I use the JetBrainsMono 
+# Nerd Font for the entire system, because it has
+# all kinds of icons that I can use, and it looks
+# good!
+font pango: JetBrainsMono Nerd Font 11
+
+# Use Mouse+$WIN to drag floating windows to where I want them.
+floating_modifier $WIN
+
+# Media volume controls
+bindsym XF86AudioMute exec $HOME/.local/bin/vol.sh toggle
+bindsym XF86AudioLowerVolume exec $HOME/.local/bin/vol.sh 5%-
+bindsym XF86AudioRaiseVolume exec $HOME/.local/bin/vol.sh 5%+
+
+# Use xbacklight to adjust the brightness.
+bindsym XF86MonBrightnessUp exec $HOME/.local/bin/dim.sh 5%+
+bindsym XF86MonBrightnessDown exec $HOME/.local/bin/dim.sh 5%-
+
+# Start a terminal: I use the kitty terminal, because it has a lot
+# of goodies: Unicode support, the ability to render ligatures and
+# emojis and images, the ability to be remote-controlled by other
+# applications, and so on.
+bindsym $WIN+Return exec kitty
+
+# Kill the focused window.
+bindsym $WIN+Shift+q kill
+
+# Start rofi, a modern replacement for dmenu.
+bindsym $WIN+d exec rofi -show drun -columns 1
+
+# Special settings for floating peaclock windows.
+for_window [title="Timekeeper"] floating enable
+for_window [title="Timekeeper"] resize set 550px 200px
+for_window [title="Timekeeper"] move container to output secondary
+for_window [title="Timekeeper"] move position center, move left 650, move up 425
+
+# Key bindings for some apps.
+bindsym $WIN+m exec $APP/media/launch.sh
+bindsym $WIN+p exec $APP/powermenu/launch.sh
+bindsym $WIN+t exec kitty --title Timekeeper peaclock
+
+# Move between windows. I use only the cursor keys because vi-like
+# bindings are not that intuitive to me and these can be more easily
+# reached via a external wireless keyboard.
+bindsym $WIN+Left focus left
+bindsym $WIN+Down focus down
+bindsym $WIN+Up focus up
+bindsym $WIN+Right focus right
+
+# Move windows.
+bindsym $WIN+Shift+Left move left
+bindsym $WIN+Shift+Down move down
+bindsym $WIN+Shift+Up move up
+bindsym $WIN+Shift+Right move right
+
+# Split in horizontal orientation.
+bindsym $WIN+h split h
+
+# Split in vertical orientation.
+bindsym $WIN+v split v
+
+# Enter fullscreen mode where the focus is.
+bindsym $WIN+f fullscreen toggle
+
+# Change container layout.
+# The choices for this are:
+#   1. stacked
+#   2. tabbed
+#   3. toggle split
+bindsym $WIN+s layout stacking
+bindsym $WIN+w layout tabbed
+bindsym $WIN+e layout toggle split
+
+# Toggle tiling / floating.
+bindsym $WIN+Shift+space floating toggle
+
+# Change focus between tiling / floating windows.
+bindsym $WIN+space focus mode_toggle
+
+# Focus the parent container.
+bindsym $WIN+a focus parent
+
+# Reload the configuration file.
+bindsym $WIN+Shift+c reload
+
+# Restart i3 inplace: This preserves your layout/session and can be used
+# to upgrade i3 if the configuration is changed from within a session or
+# something.
+bindsym $WIN+Shift+r restart
+
+# Take a screenshot.
+bindsym Print exec "flameshot gui"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+
+        # Resize with the arrow keys.
+        bindsym Left    resize shrink   width   1 px or 1 ppt
+        bindsym Down    resize grow     height  1 px or 1 ppt
+        bindsym Up      resize shrink   height  1 px or 1 ppt
+        bindsym Right   resize grow     width   1 px or 1 ppt
+
+        bindsym Shift+Left    resize shrink   width   10 px or 10 ppt
+        bindsym Shift+Down    resize grow     height  10 px or 10 ppt
+        bindsym Shift+Up      resize shrink   height  10 px or 10 ppt
+        bindsym Shift+Right   resize grow     width   10 px or 10 ppt
+
+        # Back to normal: Enter or Escape or $WIN+r.
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $WIN+r mode "default"
+}
+
+bindsym $WIN+r mode "resize"
+
+# Set colors from Xresources. This allows us to use the theme set by
+# pywal and pull it into i3. The commented out color hex codes are
+# the ones that i3 will fall back on to if it cannot load the colors
+# from Xresources.
+set_from_resource $fg i3wm.color7 #f0f0f0
+set_from_resource $bg i3wm.color2 #f0f0f0
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
+
+exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc

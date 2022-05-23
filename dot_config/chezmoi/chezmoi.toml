@@ -1,0 +1,7 @@
+[diff]
+    pager="delta"
+    exclude = ["scripts"]
+
+[merge]
+    command = "nvim"
+    args = ["-d", "{{ .Destination }}", "{{ .Source }}", "{{ .Target }}"]

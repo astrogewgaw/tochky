@@ -1,0 +1,60 @@
+[global]
+sort = yes
+padding = 6
+shrink = no
+width = 500
+height = 300
+markup = yes
+line_height = 3
+follow = keyboard
+word_wrap = false
+alignment = center
+idle_threshold = 0
+history_length = 15
+ignore_newline = no
+separator_height = 2
+sticky_history = yes
+indicate_hidden = yes
+show_indicators = yes
+horizontal_padding = 6
+stack_duplicates = yes
+show_age_threshold = -1
+separator_color = frame
+hide_duplicate_count = yes
+format = "<b>%s</b>\n<i>%b</i>"
+font = JetBrainsMono Nerd Font 12
+browser = /usr/bin/firefox -new-tab
+dmenu = /usr/bin/rofi -show drun -columns 1
+
+max_icon_size = 100
+icon_position = right
+enable_recursive_icon_lookup = false
+icon_path = /usr/share/icons/Papirus-Dark/64x64/actions:/usr/share/icons/Papirus-Dark/64x64/apps:/usr/share/icons/Papirus-Dark/64x64/devices:/usr/share/icons/Papirus-Dark/64x64/emblems:/usr/share/icons/Papirus-Dark/64x64/emotes:/usr/share/icons/Papirus-Dark/64x64/mimetypes:/usr/share/icons/Papirus-Dark/64x64/places:/usr/share/icons/Papirus-Dark/64x64/status
+
+frame_width = 3
+frame_color = "#FFFFFF"
+
+close = ctrl+space
+history = ctrl+grave
+context = ctrl+shift+period
+close_all = ctrl+shift+space
+
+[urgency_low]
+timeout = 4
+foreground = "#3B7C87"
+background = "#191311"
+frame_color = "#3B7C87"
+
+[urgency_normal]
+timeout = 6
+foreground = "#5B8234"
+background = "#191311"
+frame_color = "#5B8234"
+
+[urgency_critical]
+timeout = 8
+foreground = "#B7472A"
+background = "#191311"
+frame_color = "#B7472A"
+
+# vim: ft=cfg

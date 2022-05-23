@@ -1,0 +1,17 @@
+[flags]
+tree = true
+regex = true
+battery = true
+color = "gruvbox"
+left_legend = true
+whole_word = false
+group_processes = true
+case_sensitive = false
+network_use_binary_prefix = true
+show_table_scroll_position = true
+
+
+[colors]
+low_battery_color="red"
+high_battery_color="green"
+medium_battery_color="yellow"

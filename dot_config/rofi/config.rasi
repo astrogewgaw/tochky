@@ -1,0 +1,10 @@
+@import "~/.cache/wal/colors-rofi-dark"
+
+configuration {
+    location: 2;
+    show-icons: true;
+    modi: "run,drun";
+    icon-theme: "Papirus";
+    fixed-num-lines: true;
+    font: "JetBrainsMono Nerd Font 12";
+}

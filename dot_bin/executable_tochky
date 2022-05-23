@@ -1,0 +1,388 @@
+#!/usr/bin/env bash
+
+USER="odin"
+MAIN="yggdrasil"
+SERVER="heimdall"
+
+declare -A URLS
+declare -A PATHS
+
+END="\e[m"
+BOLD="\e[1m"
+CLS="\e[2J\e[H"
+
+MACHINE="${HOST:-${HOSTNAME}}"
+
+PATHS[PYTHON]="$HOME/conda/bin/python"
+PATHS[CZ]="$HOME/.local/share/chezmoi"
+
+URLS[YAY]="https://aur.archlinux.org/yay-bin.git"
+URLS[TEMPO]="http://git.code.sf.net/p/tempo/tempo"
+URLS[PRESTO]="https://github.com/scottransom/presto"
+URLS[MINICONDA]="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
+
+URLS[FSYNH]="https://github.com/z-shell/F-Sy-H"
+URLS[P10K]="https://github.com/romkatv/powerlevel10k"
+URLS[ZSHAS]="https://github.com/zsh-users/zsh-autosuggestions"
+URLS[OMZ]="https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+
+COMMON_CORE_PKGS=(
+    "mtools"
+    "udiskie"
+    "udisks2"
+    "ntfs-3g"
+
+    "reflector"
+
+    "zsh"
+
+    "go"
+    "npm"
+    "rust"
+    "julia"
+    "nodejs"
+    "python2"
+    "tectonic"
+
+    "fd"
+    "duf"
+    "bat"
+    "fzf"
+    "exa"
+    "just"
+    "dust"
+    "curl"
+    "wget"
+    "gzip"
+    "unrar"
+    "unzip"
+    "rsync"
+    "tokei"
+    "ffmpeg"
+    "bottom"
+    "ranger"
+    "cmatrix"
+    "lazygit"
+    "ripgrep"
+    "neofetch"
+    "git-delta"
+    "hyperfine"
+    "watchexec"
+    "imagemagick"
+
+    "fftw"
+    "cfitsio"
+)
+
+COMMON_AUR_PKGS=(
+    "pgplot"
+    "peaclock"
+
+    "python3"
+    "python36"
+    "python37"
+    "python38"
+    "python39"
+)
+
+MAIN_CORE_PKGS=(
+    "xorg-server"
+    "xorg-xrandr"
+    "xorg-xinit"
+    "xorg-xev"
+
+    "nvidia"
+    "nvidia-utils"
+
+    "i3-wm"
+
+    "alsa-utils"
+    "pulseaudio"
+    "alsa-plugins"
+    "pulseaudio-alsa"
+
+    "playerctl"
+
+    "brightnessctl"
+
+    "cups"
+    "avahi"
+    "cups-pdf"
+
+    "feh"
+    "vlc"
+    "rofi"
+    "dunst"
+    "kitty"
+    "zathura"
+    "inkscape"
+    "flameshot"
+    "cool-retro-term"
+)
+
+SERVER_CORE_PKGS=()
+
+MAIN_AUR_PKGS=(
+    "zoom"
+    "pipes.c"
+    "slack-desktop"
+    "telegram-desktop"
+    "bibata-cursor-theme-bin"
+)
+
+SERVER_AUR_PKGS=()
+
+COMMON_PYTHON_PKGS=(
+    "nox"
+    "mypy"
+    "black"
+    "pytest"
+    "wheels"
+    "pytest-cov"
+    "setuptools"
+
+    "numpy"
+    "scipy"
+    "astropy"
+    "jupyter"
+    "proplot"
+    "matplotlib"
+
+    "rich"
+    "click"
+    "asciinema"
+    "shellingham"
+)
+
+MAIN_PYTHON_PKGS=()
+SERVER_PYTHON_PKGS=()
+
+cls() { printf '..%s..' "$CLS"; }
+say() { printf '..%s..' "\n$BOLD$1$END\n"; }
+hi()  { printf '..%s..' "$(<"$HOME/.bin/$MACHINE.logo")"; }
+
+pac_install() {
+    say "Installing $*..."
+    sudo pacman -S "$@" --noconfirm --needed
+    cls
+}
+
+aur_install() {
+    say "Installing $*..."
+    yay -S \
+        --noconfirm \
+        "$(yay -Qi "$@" 2>&1 >/dev/null | \
+          grep "error: package" | \
+          grep "was not found" | \
+          cut -d"'" -f2 | \
+          tr "\n" " ")" \
+        "$@"
+    cls
+}
+
+update_core() {
+    say  "Configuring pacman and updating the entire system..."
+    sudo pacman-key --delete all
+    sudo pacman-key --populate archlinux
+    sudo pacman -Syy
+    sudo pacman -Suu
+    cls
+}
+
+install_yay() {
+    if ! type -p yay &>/dev/null; then
+        say "Installing yay: the AUR helper..."
+        pac_install git base-devel
+        git clone "${URLS[YAY]}"
+        cd yay-bin || exit
+        makepkg -si
+        cd ..
+        rm -rf yay-bin
+        cls
+    else
+        say "Yay is already installed. Moving on..."
+        cls
+    fi
+}
+
+install_core() { PKGS=("$@"); for PKG in "${PKGS[@]}"; do pac_install "$PKG"; done }
+install_aur()  { PKGS=("$@"); for PKG in "${PKGS[@]}"; do aur_install "$PKG"; done }
+
+install_omz() {
+    if ! type -p omz &>/dev/null; then
+        say "Installing OMZ..."
+        sh -c "$(curl -fsSL ${URLS[OMZ]})" "" --keep-zshrc --unattended
+
+	say "Installing plugins..."
+        
+	say "Installing powerlevel10k..."
+        git clone "${URLS[P10K]}" "$HOME/.p10k/"
+
+	say "Installing zsh-autosuggestions..."
+        git clone \
+            "${URLS[ZSHAS]}" \
+            "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/"
+
+	say "Installing F-Sy-H..."
+        git clone \
+            "${URLS[FSYNH]}" \
+            "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/F-Sy-H"
+    else
+        say "OMZ is already installed. Moving on..."
+        cls
+    fi
+}
+
+install_miniconda() {
+    if ! type -p conda &>/dev/null; then
+        say "Installing Miniconda."
+        wget "${URLS[MINICONDA]}" -O "$HOME/miniconda.sh"
+        bash "$HOME/miniconda.sh" -b -p "$HOME/conda"
+        rm -rf "$HOME/miniconda.sh"
+        cls
+    else
+        say "Miniconda is already installed. Moving on..."
+        cls
+    fi
+}
+
+install_nfs() {
+    say "Installing Nerd Fonts..."
+
+    TEMP_DIR="$HOME/temp"
+    FONT_DIR="$HOME/.local/share/fonts"
+    NERD_FONTS=("FiraCode" "JetBrainsMono")
+    
+    REPO="ryanoasis/nerd-fonts"
+    API_URL="https://api.github.com/repos/$REPO/releases/latest"
+    VERSION="$(curl --silent $API_URL | grep -Po '"tag_name": "\K.*?(?=")')"
+    ARX_URL="https://github.com/$REPO/releases/download/$VERSION"
+
+    for NERD_FONT in "${NERD_FONTS[@]}"; do
+        exists=$(fc-list | grep -i "$NERD_FONT")
+        if [ -z "$exists" ]; then
+            SX=0
+            say "Nope. $NERD_FONT is not installed." &&
+            say "Downloading..." &&
+            mkdir -p "$TEMP_DIR" &&
+            wget --show-progress -q "$ARX_URL/$NERD_FONT.zip" -P "$TEMP_DIR" &&
+            unzip -qq "$TEMP_DIR/$NERD_FONT.zip" -d "$FONT_DIR" &&
+            SX=1
+        else
+            say "Found it: $NERD_FONT is already installed."
+        fi
+    done
+    
+    if [ $SX -eq 1 ]; then
+        say "Updating cache..." &&
+        fc-cache -fv >/dev/null 2>&1 &&
+        rm -rf "$TEMP_DIR"
+    fi
+
+    cls
+}
+
+
+install_tempo() {
+    if ! type -p tempo &>/dev/null; then
+        say "Installing TEMPO..."
+        git clone "${URLS[TEMPO]}" "$HOME/tempo"
+        cd "$TEMPO" || exit
+        source prepare
+        ./configure
+        sudo make
+        sudo make install
+        cd "$HOME" || exit
+        cls
+    else
+        say "TEMPO is already installed. Moving on..."
+        cls
+    fi
+}
+
+install_presto() {
+    if ! type -p prepfold &>/dev/null; then
+        say "Installing PRESTO."
+        git clone "${URLS[PRESTO]}" "$PRESTO"
+        cd "$PRESTO/src" || exit
+        make makewisdom
+        make prep
+        make
+        make clean
+	cd "$HOME" || exit
+        cls
+    else
+        say "PRESTO is already installed. Moving on..."
+        cls
+    fi
+}
+
+python_setup() {
+    say "Setting up the Python environment..."
+    for PKG in "${COMMON_PYTHON_PKGS[@]}"; do
+        say "Installing: ${PKG}..."
+        "${PATHS[PYTHON]}" -m pip install "$PKG"
+        cls
+    done
+    
+    if [[ "$MACHINE" =~ $MAIN ]]; then
+        # HACK:
+        # Installing a pre-release version of `pywalfox`,
+        # because of this issue below that is still open:
+        # https://github.com/Frewacom/pywalfox/issues/72.
+        "${PATHS[PYTHON]}" -m \
+            pip install \
+                --index-url https://test.pypi.org/simple/ \
+                pywalfox==2.8.0rc1
+        cls
+    fi
+}
+
+neovim_setup() {
+    say "Setting up neovim..."
+    "${PATHS[PYTHON]}" -m pip install pynvim
+    sudo npm i -g neovim
+    cls
+}
+
+wallpaper_setup() {
+    if [ ! -d "$HOME/wallpapers" ]; then
+        say "Setting up the wallpaper and theme..."
+        udisksctl mount -b /dev/sdb1
+        ln -s "$HDD/images/wallpapers/desktop" "$HOME/wallpapers"
+        wal -i "$HOME/wallpapers"
+    else
+        say "Wallpaper and theme already set."
+    fi
+    cls
+}
+
+setup() {
+    hi
+
+    update_core
+
+    install_core "${COMMON_CORE_PKGS[@]}"
+    if [[ "$MACHINE" =~ $MAIN ]]; then install_core "${MAIN_CORE_PKGS[@]}"; fi
+    if [[ "$MACHINE" =~ $SERVER ]]; then install_core "${SERVER_CORE_PKGS[@]}"; fi
+    
+    install_yay
+    
+    install_aur "${COMMON_AUR_PKGS[@]}"
+    if [[ "$MACHINE" =~ $MAIN ]]; then install_aur "${MAIN_AUR_PKGS[@]}"; fi
+    if [[ "$MACHINE" =~ $SERVER ]]; then install_aur "${SERVER_AUR_PKGS[@]}"; fi
+    
+    install_nfs
+    install_omz
+    install_tempo
+    install_presto
+    install_miniconda
+
+    python_setup
+    neovim_setup
+    wallpaper_setup
+
+    hi
+}
+
+setup

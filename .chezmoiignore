@@ -1,0 +1,12 @@
+LICENSE
+README.md
+
+{{- if ne .chezmoi.hostname "zion" }}
+
+dot_xinitrc
+dot_zprofile
+dot_config/i3
+dot_config/rofi
+dot_config/kitty
+
+{{- end }}

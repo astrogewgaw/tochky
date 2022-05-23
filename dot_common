@@ -1,0 +1,98 @@
+# Setting the $PATH.
+
+export PATH=/bin:$PATH
+export PATH=/sbin:$PATH
+export PATH=/usr/bin:$PATH
+export PATH=/usr/sbin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
+export PATH=/usr/local/go/bin:$PATH
+
+export PATH=$HOME/.bin:$PATH
+export PATH=$HOME/go/bin:$PATH
+export PATH=$HOME/conda/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/presto/bin:$PATH
+export PATH=$HOME/spicetify-cli:$PATH
+
+# Set the locale, just in case.
+export LC_ALL="en_US.UTF-8"
+
+# Export the path to my hard disk as an environment
+# variable, because who has the time to type this
+# mostrosity again and again?
+export HDD="/run/media/$USER/codex"
+
+# Set up the default pager, `less`, to do things my way.
+# For the `man` pages, set `less` up differently, with 
+# fewer features.
+export MANPAGER="less -X"
+export LESS="--ignore-case --quit-if-one-screen --quit-on-intr -FRXQ"
+
+# Manually set your language environment,
+# just in case something messes it up.
+export LANG=en_US.UTF-8
+
+# Setting the preferred editor for remote
+# and local sessions, via the environment
+# variable EDITOR.
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nano'
+else
+  export EDITOR='nvim'
+fi
+
+# Compilation flags.
+export ARCHFLAGS="-arch x86_64"
+
+# Environment variables for PRESTO.
+export TEMPO="$HOME/tempo"
+export PRESTO="$HOME/presto"
+export PGPLOT_DIR="/usr/lib"
+export LD_LIBRARY_PATH="$PRESTO/lib:$LD_LIBRARY_PATH"
+
+# A few aliases:
+#   1. Alias `exit` to `x`.
+#   2. Alias `nvim` to `vim`.
+#   3. Alias `clear` to `cls`.
+#   4. Alias `chezmoi` to `cz`, since I use it a lot.
+#   5. Alias `. ranger` to `rn`, since it is my file manager and
+#      adding a dot just before it ensures that it changes to the
+#      directory that I navigate to. Also, takes care of a issue
+#      that does not allow it to open any of text files since `sh`
+#      cannot seem to find my Neovim binary.
+#   6. Add an alias that changes to my hard disk as the current
+#      working directory, since the actual path to my hard disk
+#      is way too long.
+#   7. Add an alias for `ssh`, since I am using kitty, and weird
+#      things happen during any remote login if I don't do this.
+#      Note that this is also recommended by the author fo kitty
+#      himself.
+#   8. Alias another commonly used kitten (plugins for the kitty
+#      terminal) that can show images: `icat`.
+#   9. An alias for `pywal`, that by default points to the ever
+#      expanding directory where I store my desktop wallpapers
+#      by default.
+#   10. Get a progress bar and time estimate when copying files,
+#      thanks to the wonderful `rsync` utility.
+alias x="exit"
+alias vim="nvim"
+alias cls="clear"
+alias cz="chezmoi"
+alias rn=". ranger"
+alias hdd="cd $HDD"
+alias ssh="kitty +kitten ssh"
+alias icat="kitty +kitten icat"
+alias wally="wal -i $HOME/wallpapers"
+alias cp="rsync --progress --recursive --archive"
+
+# A few more aliases, this time focusing on the `ls` command.
+# I always end up replacing the default, featureless `ls` with
+# the much more powerful `exa`, so I alias the most used combos
+# in almost any shell I am in.
+alias l="exa -l@h --icons --sort=type"
+alias ll="exa -l@h --icons --sort=type"
+alias ls="exa -l@h --icons --sort=type"
+alias lt="exa -l@hT --icons --sort=type"
+alias la="exa -l@ha --icons --sort=type"

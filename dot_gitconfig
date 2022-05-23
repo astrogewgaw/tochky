@@ -1,0 +1,23 @@
+[core]
+    pager = delta
+
+[user]
+	name = Ujjwal Panda
+    email = ujjwalpanda97@gmail.com
+
+[github]
+    user = astrogewgaw
+
+[interactive]
+    diffFilter = delta
+
+[delta]
+    side-by-side = true
+    line-numbers = true
+    syntax-theme = gruvbox-dark
+
+[credential "https://github.com"]
+    helper = !/usr/bin/gh auth git-credential
+
+[init]
+	defaultBranch = main

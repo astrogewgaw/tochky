@@ -1,0 +1,81 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Path to the Oh My ZSH installation.
+export ZSH=/home/$USER/.oh-my-zsh
+
+# Disabling the ZSH theme, by setting the
+# variable to a blank line. The theme for
+# the terminal is taken care of by `pywal`.
+ZSH_THEME=""
+
+# Allowing for case sensitive completion.
+CASE_SENSITIVE="true"
+
+# Disable command auto-correction.
+ENABLE_CORRECTION="false"
+
+# Display yellow dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+
+# Disable marking untracked files under VCS as dirty.
+# This makes repository status check for large repos
+# much, much faster.
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Change the command execution time stamp shown in the
+# history command output. Set this way beacuse this is
+# not America and we don't do it the mm/dd/yyyy way over
+# here.
+HIST_STAMPS="dd.mm.yyyy"
+
+# Plugins, plugins and more plugins!
+plugins=(
+    gh
+    git
+    fzf
+    pip
+    rust
+    zsh-autosuggestions
+    fast-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# Initialise my Miniconda environment.
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/neo/conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/neo/conda/etc/profile.d/conda.sh" ]; then
+        . "/home/neo/conda/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/neo/conda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+. "$HOME/.cargo/env"
+
+if test -n "$KITTY_INSTALLATION_DIR"; then
+    export KITTY_SHELL_INTEGRATION="enabled"
+    autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+    kitty-integration
+    unfunction kitty-integration
+fi
+
+source ~/.p10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Source some common aliases and stuff.
+source $HOME/.common
