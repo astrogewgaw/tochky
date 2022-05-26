@@ -20,7 +20,6 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 PS1='[\u@\h \W]\$ '
-. "$HOME/.cargo/env"
 
 if test -n "$KITTY_INSTALLATION_DIR"; then
     export KITTY_SHELL_INTEGRATION="enabled"
@@ -28,4 +27,7 @@ if test -n "$KITTY_INSTALLATION_DIR"; then
 fi
 
 # Source some common aliases and stuff,
-source $HOME/.common
+
+source $HOME/.env
+source $HOME/.paths
+source $HOME/.aliases

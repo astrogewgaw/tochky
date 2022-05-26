@@ -40,8 +40,8 @@ plugins=(
     fzf
     pip
     rust
+    F-Sy-H
     zsh-autosuggestions
-    fast-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -63,8 +63,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-. "$HOME/.cargo/env"
-
 if test -n "$KITTY_INSTALLATION_DIR"; then
     export KITTY_SHELL_INTEGRATION="enabled"
     autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
@@ -77,5 +75,9 @@ source ~/.p10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Source some common aliases and stuff.
-source $HOME/.common
+# Source common settings, such as the system PATH, aliases or environment
+# variables. These have been divided into three different files.
+
+source $HOME/.env
+source $HOME/.paths
+source $HOME/.aliases

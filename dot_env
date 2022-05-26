@@ -1,0 +1,35 @@
+# Set the locale, just in case.
+export LC_ALL="en_US.UTF-8"
+
+# Export the path to my hard disk as an environment
+# variable, because who has the time to type this
+# mostrosity again and again?
+export HDD="/run/media/$USER/codex"
+
+# Set up the default pager, `less`, to do things my way.
+# For the `man` pages, set `less` up differently, with 
+# fewer features.
+export MANPAGER="less -X"
+export LESS="--ignore-case --quit-if-one-screen --quit-on-intr -FRXQ"
+
+# Manually set your language environment,
+# just in case something messes it up.
+export LANG=en_US.UTF-8
+
+# Setting the preferred editor for remote
+# and local sessions, via the environment
+# variable EDITOR.
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nano'
+else
+  export EDITOR='nvim'
+fi
+
+# Compilation flags.
+export ARCHFLAGS="-arch x86_64"
+
+# Environment variables for PRESTO.
+export TEMPO="$HOME/tempo"
+export PRESTO="$HOME/presto"
+export PGPLOT_DIR="/usr/lib"
+export LD_LIBRARY_PATH="$PRESTO/lib:$LD_LIBRARY_PATH"
