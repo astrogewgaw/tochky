@@ -1,0 +1,89 @@
+@import "~/.cache/wal/colors-rofi-dark"
+
+configuration {
+    show-icons:       false;
+    disable-history:  false;
+	sidebar-mode:     false;
+    font:             "JetBrainsMono Nerd Font 12";
+}
+
+* {
+    text-color:       @foreground;
+    background-color: @background;
+}
+
+window {
+    border-radius:    0px;
+    x-offset:         35px;
+    y-offset:         35px;
+    width:            450px;
+    location:         northwest;
+    border-color:     @foreground;
+    border:           3px 3px 3px 3px;
+}
+
+listview {
+    columns:          4;
+    lines:            1;
+    spacing:          0px;
+    cycle:            true;
+    dynamic:          true;
+    layout:           vertical;
+}
+
+mainbox {
+    spacing:          0px;
+    margin:           0px;
+    background-color: @background;
+    children:         [ listview ];
+}
+
+element {
+    border-radius:    100%;
+    orientation:      vertical;
+    background-color: @background;
+    text-color:       @foreground;
+}
+
+element-text {
+    vertical-align:   0.5;
+    horizontal-align: 0.5;
+    expand:           true;
+    margin:           10px;
+    background-color: inherit;
+    text-color:       inherit;
+	font:             "feather 36";
+}
+
+element normal.urgent,
+element alternate.urgent {
+    border-radius:    0px;
+    background-color: @off;
+    text-color:       @background;
+}
+
+element normal.active,
+element alternate.active {
+    background-color: @on;
+    text-color:       @background;
+}
+
+element selected {
+    border:           0px;
+    border-radius:    100%;
+    border-color:     @border;
+    background-color: @foreground;
+    text-color:       @background;
+}
+
+element selected.urgent {
+    background-color: @on;
+    text-color:       @background;
+}
+
+element selected.active {
+    background-color: @off;
+    color:            @background;
+}
+
+/* vim:ft=css */

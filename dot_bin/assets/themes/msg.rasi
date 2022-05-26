@@ -1,0 +1,25 @@
+@import "~/.cache/wal/colors-rofi-dark"
+
+* {
+    text-color:       @foreground;
+    background-color: @background;
+	font:             "JetBrainsMono Nerd Font 12";
+}
+
+window {
+    border-radius:    0px;
+    x-offset:         0px;
+    y-offset:         0px;
+    padding:          25px;
+    width:            360px;
+    location:         center;
+    border-color:     @foreground;
+    border:           3px 3px 3px 3px;
+}
+
+entry {
+    expand:           true;
+    text-color:       @foreground;
+}
+
+/* vim:ft=css */

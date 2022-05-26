@@ -32,6 +32,8 @@ COMMON_CORE_PKGS=(
     "udisks2"
     "ntfs-3g"
 
+    "xdotool"
+
     "reflector"
 
     "zsh"
@@ -39,6 +41,7 @@ COMMON_CORE_PKGS=(
     "go"
     "npm"
     "rust"
+    "cargo"
     "julia"
     "nodejs"
     "python2"
@@ -49,6 +52,7 @@ COMMON_CORE_PKGS=(
     "bat"
     "fzf"
     "exa"
+    "xsel"
     "just"
     "dust"
     "curl"
@@ -64,11 +68,15 @@ COMMON_CORE_PKGS=(
     "cmatrix"
     "lazygit"
     "ripgrep"
+    "ueberzug"
     "neofetch"
     "git-delta"
     "hyperfine"
     "watchexec"
     "imagemagick"
+    "python-pywal"
+    "python-pillow"
+    "ffmpegthumbnailer"
 
     "fftw"
     "cfitsio"
@@ -115,9 +123,14 @@ MAIN_CORE_PKGS=(
     "dunst"
     "kitty"
     "zathura"
+    "firefox"
     "inkscape"
     "flameshot"
+    "zathura-ps"
+    "zathura-cb"
+    "zathura-djvu"
     "cool-retro-term"
+    "zathura-pdf-poppler"
 )
 
 SERVER_CORE_PKGS=()
@@ -125,8 +138,11 @@ SERVER_CORE_PKGS=()
 MAIN_AUR_PKGS=(
     "zoom"
     "pipes.c"
+    "zotero-bin"
     "slack-desktop"
+    "faba-icon-theme"
     "telegram-desktop"
+    "linux-wifi-hotspot"
     "bibata-cursor-theme-bin"
 )
 
@@ -134,10 +150,11 @@ SERVER_AUR_PKGS=()
 
 COMMON_PYTHON_PKGS=(
     "nox"
+    "pipx"
     "mypy"
     "black"
+    "wheel"
     "pytest"
-    "wheels"
     "pytest-cov"
     "setuptools"
 
@@ -150,6 +167,7 @@ COMMON_PYTHON_PKGS=(
 
     "rich"
     "click"
+    "paramiko"
     "asciinema"
     "shellingham"
 )
@@ -157,9 +175,9 @@ COMMON_PYTHON_PKGS=(
 MAIN_PYTHON_PKGS=()
 SERVER_PYTHON_PKGS=()
 
-cls() { printf '..%s..' "$CLS"; }
-say() { printf '..%s..' "\n$BOLD$1$END\n"; }
-hi()  { printf '..%s..' "$(<"$HOME/.bin/$MACHINE.logo")"; }
+cls() { printf "$CLS"; }
+say() { printf "\n$BOLD$1$END\n"; }
+hi()  { printf "$(<"$HOME/.bin/assets/$MACHINE.logo")"; }
 
 pac_install() {
     say "Installing $*..."
@@ -169,14 +187,7 @@ pac_install() {
 
 aur_install() {
     say "Installing $*..."
-    yay -S \
-        --noconfirm \
-        "$(yay -Qi "$@" 2>&1 >/dev/null | \
-          grep "error: package" | \
-          grep "was not found" | \
-          cut -d"'" -f2 | \
-          tr "\n" " ")" \
-        "$@"
+    yay -S --noconfirm "$@"
     cls
 }
 
@@ -221,12 +232,13 @@ install_omz() {
 	say "Installing zsh-autosuggestions..."
         git clone \
             "${URLS[ZSHAS]}" \
-            "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/"
+            "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/"
 
 	say "Installing F-Sy-H..."
         git clone \
             "${URLS[FSYNH]}" \
-            "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/F-Sy-H"
+            "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/F-Sy-H"
+	cls
     else
         say "OMZ is already installed. Moving on..."
         cls
@@ -342,6 +354,7 @@ neovim_setup() {
     say "Setting up neovim..."
     "${PATHS[PYTHON]}" -m pip install pynvim
     sudo npm i -g neovim
+    pac_install neovim
     cls
 }
 
