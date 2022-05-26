@@ -27,12 +27,12 @@ for _, name in pairs(servers) do
 	end
 
 	local opts = {
-		on_attach = require("neo.plugins.lsp.handles").on_attach,
-		capabilities = require("neo.plugins.lsp.handles").capabilities,
+		on_attach = require("plugins.lsp.handles").on_attach,
+		capabilities = require("plugins.lsp.handles").capabilities,
 	}
 
 	if name == "sumneko_lua" then
-		local sumneko_opts = require("neo.plugins.lsp.opts.sumneko_lua")
+		local sumneko_opts = require("plugins.lsp.opts.sumneko_lua")
 		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
 	end
 

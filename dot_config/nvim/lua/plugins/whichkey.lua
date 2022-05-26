@@ -171,7 +171,7 @@ local mappings = {
 		b = { "<cmd>lua _BTM_TOGGLE()<cr>", "Bottom" },
 		p = { "<cmd>lua _IPYTHON_TOGGLE()<cr>", "IPython" },
 		f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
-        v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
+		v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
 		h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
 	},
 }

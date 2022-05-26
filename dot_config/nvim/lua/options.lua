@@ -29,7 +29,7 @@ local options = {
 
 local globals = {
 	python2_host_prog = 0,
-	python3_host_prog = "/home/neo/conda/bin/python",
+	python3_host_prog = "/home/odin/conda/bin/python",
 }
 
 for key, value in pairs(options) do

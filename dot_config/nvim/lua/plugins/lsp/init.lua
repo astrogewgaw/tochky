@@ -1,7 +1,7 @@
 require("lspconfig")
-require("neo.plugins.lsp.install")
-require("neo.plugins.lsp.format")
-require("neo.plugins.lsp.handles").setup()
+require("plugins.lsp.install")
+require("plugins.lsp.format")
+require("plugins.lsp.handles").setup()
 
 -- HACK: Enable the Julia Language Server.
 -- Somehow this is not working directly via

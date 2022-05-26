@@ -6,15 +6,6 @@ local data_path = vim.fn.stdpath("data")
 local packer_url = "https://github.com/wbthomason/packer.nvim"
 local install_path = data_path .. "/site/pack/packer/start/packer.nvim"
 
--- Automatically install Packer if it is not installed already.
--- This ensures that we are always up and running on a brand
--- new setup. To install Packer, we just need to git clone the
--- repository into the right place. That is how all plugins work
--- in Neovim. Packer (and other plugin management systems) only
--- manage the standard path for us; in other words, they git clone
--- the repositories in the right place. This is also why, later on,
--- we can configure Packer to manage itself.
-
 if none(glob(install_path)) > 0 then
 	INSTALL_PATH = exe({ "git", "clone", "--depth", "1", packer_url, install_path })
 	print("Packer is being installed!")
@@ -23,25 +14,12 @@ if none(glob(install_path)) > 0 then
 	cmd([[ packadd packer.nvim ]])
 end
 
--- Ensure that whenever we add or delete plugins in this file,
--- Packer syncs and compiles all plugins. Thus, any new plugins
--- that we add are installed when we save this file, and if we
--- delete any plugins from this file, they are removed.
---
--- The `BufWritePost` command means that the autocommand will be
--- executed after the buffer (that is, the file in memory) is
--- written to disk.
-
 cmd([[
     augroup _packer
         autocmd!
         autocmd BufWritePost core.lua source <afile> | PackerSync
     augroup end
 ]])
-
--- Set up Packer to use a floating pop-up window.
--- We use a protected call here, so that we don't
--- error out when we use Packer for the first time.
 
 local ok, packer = pcall(require, "packer")
 if not ok then
@@ -55,8 +33,6 @@ packer.init({
 		end,
 	},
 })
-
--- A long, long list of all the plugins I use.
 
 local plugins = {
 	"lervag/vimtex",
@@ -101,7 +77,7 @@ local plugins = {
 	"tamago324/nlsp-settings.nvim",
 	"iamcco/markdown-preview.nvim",
 	"kyazdani42/nvim-web-devicons",
-        "nvim-telescope/telescope.nvim",
+	"nvim-telescope/telescope.nvim",
 	"KeitaNakamura/tex-conceal.vim",
 	"williamboman/nvim-lsp-installer",
 	"nvim-treesitter/nvim-treesitter",

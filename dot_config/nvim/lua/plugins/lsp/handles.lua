@@ -65,10 +65,8 @@ local function lsp_keymaps(bufnr)
 		["gD"] = "<cmd>lua vim.lsp.buf.declaration()<CR>",
 		["gi"] = "<cmd>lua vim.lsp.buf.implementation()<CR>",
 		["<C-k>"] = "<cmd>lua vim.lsp.buf.signature_help()<CR>",
-		["<leader>q"] = "<cmd>lua vim.diagnostic.setloclist()<CR>",
 		["[d"] = '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>',
 		["]d"] = '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>',
-		["gl"] = '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded" })<CR>',
 	}
 
 	for key, cmd in pairs(maps) do
