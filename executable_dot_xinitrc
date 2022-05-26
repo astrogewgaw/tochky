@@ -1,7 +1,6 @@
 udisksctl mount -b /dev/sdb1
-wal -R
-
-udiskie &
 playerctld daemon
+udiskie &
+wal -R
 
 exec i3
