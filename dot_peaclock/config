@@ -1,37 +1,37 @@
-fill ''
-locale ''
-block 2 1
-ratio 2 1
-mode clock
-margin 0 0
-padding 0 0
-timer clear
-view digital
-rate-input 50
-date-padding 1
-date '%a %b %d'
-stopwatch start
-toggle active-bg
-rate-status 5000
-rate-refresh 1000
-timezone 'Asia/Kolkata'
-timer-exec 'notify-send -a peaclock "Timer complete!"'
-
-set date on
-set seconds on
-set hour-24 off
-set auto-size on
-set auto-ratio off
-
-style active-fg clear
-style inactive-fg clear
-style colon-fg clear
-style active-bg reverse
-style inactive-bg clear
-style colon-bg clear
-style date clear
-style background clear
+style error red
 style text clear
+style date clear
 style prompt clear
 style success green
-style error red
+style colon-fg clear
+style colon-bg clear
+style active-fg clear
+style background clear
+style inactive-fg clear
+style active-bg reverse
+style inactive-bg clear
+
+fill         ''
+locale       ''
+block        2 1
+ratio        2 1
+mode         clock
+margin       0 0
+padding      0 0
+timer        clear
+view         digital
+rate-input   50
+date-padding 1
+date         '%a %b %d'
+stopwatch    start
+toggle       active-bg
+rate-status  5000
+rate-refresh 1000
+timezone     'Asia/Kolkata'
+timer-exec   'notify-send -a peaclock "Timer complete!"'
+
+set          date on
+set          seconds on
+set          hour-24 off
+set          auto-size off
+set          auto-ratio off
